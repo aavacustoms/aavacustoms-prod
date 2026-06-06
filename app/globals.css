@@ -1,0 +1,146 @@
+@import "tailwindcss";
+
+@theme {
+  --color-primary: #1a365d;
+  --color-secondary: #2c7a7b;
+  --color-accent: #2c7a7b;
+  --color-neutral-dark: #2d3748;
+  
+  --font-sans: var(--font-outfit), sans-serif;
+  --font-display: var(--font-space-grotesk), sans-serif;
+  
+  --animate-pulse-slow: pulse-slow 8s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  --animate-float: float 6s ease-in-out infinite;
+
+  @keyframes pulse-slow {
+    0%, 100% { opacity: 0.15; transform: scale(1); }
+    50% { opacity: 0.35; transform: scale(1.15); }
+  }
+  @keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-8px); }
+  }
+}
+
+:root {
+  --color-brand-primary: #1a365d;
+  --color-brand-secondary: #2c7a7b;
+  --color-brand-neutral: #2d3748;
+}
+
+body {
+  background-color: #060a12;
+  color: #f8fafc;
+  font-family: var(--font-outfit), sans-serif;
+  overflow-x: hidden;
+}
+
+/* Custom Utilities for Premium Glows and Glassmorphism */
+.glass-panel {
+  background: rgba(10, 20, 36, 0.55);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(44, 122, 123, 0.18);
+  box-shadow: 0 10px 40px 0 rgba(6, 10, 18, 0.5);
+}
+
+.glass-panel-hover {
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.glass-panel-hover:hover {
+  border-color: rgba(44, 122, 123, 0.45);
+  box-shadow: 0 10px 40px 0 rgba(44, 122, 123, 0.12);
+  transform: translateY(-3px);
+}
+
+.text-gradient {
+  background: linear-gradient(135deg, #ffffff 40%, #a5f3fc 80%, #2c7a7b 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.text-gradient-accent {
+  background: linear-gradient(135deg, #4fd1c5 0%, #2c7a7b 50%, #1a365d 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.glow-btn {
+  position: relative;
+  overflow: hidden;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.glow-btn::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -50%;
+  width: 200%;
+  height: 100%;
+  background: linear-gradient(
+    to right,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.2) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  transform: skewX(-25deg);
+  transition: 0.75s;
+  opacity: 0;
+}
+.glow-btn:hover::after {
+  left: 125%;
+  opacity: 1;
+}
+
+/* Shimmer Sweep Animation */
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.shimmer-text {
+  background: linear-gradient(
+    to right,
+    #ffffff 20%,
+    #2c7a7b 45%,
+    #a5f3fc 55%,
+    #ffffff 80%
+  );
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: shimmer 6s linear infinite;
+}
+
+/* Ambient glow blobs */
+.glow-blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(100px);
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.22;
+}
+
+.glow-blob-primary {
+  background: radial-gradient(circle, rgba(26, 54, 93, 0.75) 0%, rgba(26, 54, 93, 0) 70%);
+}
+
+.glow-blob-secondary {
+  background: radial-gradient(circle, rgba(44, 122, 123, 0.65) 0%, rgba(44, 122, 123, 0) 70%);
+}
+
+/* Cyberpunk grid overlay */
+.cyber-grid {
+  background-size: 50px 50px;
+  background-image: 
+    linear-gradient(to right, rgba(44, 122, 123, 0.035) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(44, 122, 123, 0.035) 1px, transparent 1px);
+}
