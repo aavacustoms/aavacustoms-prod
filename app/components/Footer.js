@@ -45,7 +45,7 @@ const SOCIALS = [
   },
   {
     name: "Email",
-    href: "mailto:info@aavacustoms.com",
+    href: "mailto:hello@aavacustoms.com",
     icon: (
       <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
         <path strokeLinecap="round" strokeLinejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
@@ -123,13 +123,13 @@ export default function Footer() {
             </span>
             <div className="space-y-3">
               <a
-                href="mailto:info@aavacustoms.com"
+                href="mailto:hello@aavacustoms.com"
                 className="flex items-center gap-2 text-[11px] text-slate-500 hover:text-[#2c7a7b] transition-colors group"
               >
                 <svg className="w-3.5 h-3.5 shrink-0 text-[#2c7a7b]/60 group-hover:text-[#2c7a7b]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                 </svg>
-                info@aavacustoms.com
+                hello@aavacustoms.com
               </a>
               <div className="flex items-center gap-2 text-[11px] text-slate-500">
                 <svg className="w-3.5 h-3.5 shrink-0 text-[#2c7a7b]/60" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">

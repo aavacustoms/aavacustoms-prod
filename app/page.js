@@ -6,16 +6,16 @@ import Image from "next/image";
 export default function Home() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [selectedService, setSelectedService] = useState("gifting"); // "gifting" | "events"
-  
+
   // Calculator States
   const [giftQuantity, setGiftQuantity] = useState(50);
   const [eventGuests, setEventGuests] = useState(100);
-  
+
   // Gifting Add-ons
   const [customPackaging, setCustomPackaging] = useState(true);
   const [premiumSourcing, setPremiumSourcing] = useState(false);
   const [internationalDelivery, setInternationalDelivery] = useState(false);
-  
+
   // Events Add-ons
   const [stageProduction, setStageProduction] = useState(true);
   const [avSourcing, setAvSourcing] = useState(false);
@@ -49,19 +49,19 @@ export default function Home() {
 
     if (selectedService === "gifting") {
       // Base cost per gift box: $45 to $75 depending on scale
-      let unitCost = giftQuantity > 200 ? 45 : giftQuantity > 100 ? 55 : 65;
-      
+      let unitCost = giftQuantity > 200 ? 5 : giftQuantity > 100 ? 15 : 25;
+
       let baseMin = giftQuantity * unitCost;
-      let baseMax = giftQuantity * (unitCost + 25);
+      let baseMax = giftQuantity * (unitCost + 15);
 
       // Add-on charges per unit
       if (customPackaging) {
-        baseMin += giftQuantity * 12;
-        baseMax += giftQuantity * 18;
+        baseMin += giftQuantity * 5;
+        baseMax += giftQuantity * 10;
       }
       if (premiumSourcing) {
-        baseMin += giftQuantity * 20;
-        baseMax += giftQuantity * 35;
+        baseMin += giftQuantity * 10;
+        baseMax += giftQuantity * 20;
       }
       if (internationalDelivery) {
         baseMin += giftQuantity * 15;
@@ -72,23 +72,23 @@ export default function Home() {
       maxPrice = baseMax;
     } else {
       // Event Coordination Base: $3500 base setup + $35 to $60 per guest
-      let guestCost = eventGuests > 500 ? 35 : eventGuests > 250 ? 45 : 55;
-      
-      let baseMin = 3500 + (eventGuests * guestCost);
-      let baseMax = 6000 + (eventGuests * (guestCost + 30));
+      let guestCost = eventGuests > 500 ? 25 : eventGuests > 250 ? 35 : 45;
+
+      let baseMin = 1500 + (eventGuests * guestCost);
+      let baseMax = 2000 + (eventGuests * (guestCost + 20));
 
       // Add-on charges flat/per-guest
       if (stageProduction) {
-        baseMin += 2500;
-        baseMax += 4500;
+        baseMin += 1500;
+        baseMax += 2500;
       }
       if (avSourcing) {
-        baseMin += 3000;
+        baseMin += 1000;
         baseMax += 5500;
       }
       if (cateringCoordination) {
-        baseMin += eventGuests * 25;
-        baseMax += eventGuests * 45;
+        baseMin += eventGuests * 15;
+        baseMax += eventGuests * 25;
       }
 
       minPrice = baseMin;
@@ -142,7 +142,7 @@ Please get back to me with a detailed blueprint proposal.`
   const handleContactSubmit = (e) => {
     e.preventDefault();
     setFormStatus("loading");
-    
+
     // Simulate API write
     setTimeout(() => {
       setFormStatus("success");
@@ -197,13 +197,13 @@ Please get back to me with a detailed blueprint proposal.`
     },
   ];
 
-  const filteredGallery = galleryFilter === "all" 
-    ? galleryItems 
+  const filteredGallery = galleryFilter === "all"
+    ? galleryItems
     : galleryItems.filter(item => item.category === galleryFilter);
 
   return (
     <div className="relative min-h-screen flex flex-col justify-between overflow-x-hidden bg-[#060a12] text-slate-100 font-sans selection:bg-[#2c7a7b]/30 selection:text-[#2c7a7b]">
-      
+
       {/* Decorative Brand Ambient Glowing Orbs */}
       <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none z-0">
         <div className="glow-blob glow-blob-primary w-[40rem] h-[40rem] -top-60 -left-40 animate-pulse-slow" style={{ animationDuration: "9s" }} />
@@ -217,7 +217,7 @@ Please get back to me with a detailed blueprint proposal.`
       {/* Sticky frosted glass navbar */}
       <header className="sticky top-0 z-50 w-full backdrop-blur-md bg-[#060a12]/75 border-b border-[#2c7a7b]/10 transition-all duration-300">
         <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-          
+
           {/* Logo Frame */}
           <a href="#home" className="flex items-center gap-2.5 group">
             <div className="relative w-8 h-8 sm:w-9 sm:h-9">
@@ -243,15 +243,15 @@ Please get back to me with a detailed blueprint proposal.`
           </nav>
 
           {/* Header Action Button */}
-          <a 
-            href="#estimator" 
+          <a
+            href="#estimator"
             className="hidden md:inline-flex px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#1a365d]/40 to-[#2c7a7b]/50 hover:to-[#2c7a7b]/80 border border-[#2c7a7b]/30 hover:border-[#2c7a7b]/60 text-xs font-bold tracking-wider uppercase text-white shadow-sm transition-all duration-300 hover:shadow-[0_0_12px_rgba(44,122,123,0.25)]"
           >
             Get Estimate
           </a>
 
           {/* Hamburger Mobile Menu Toggle */}
-          <button 
+          <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             className="md:hidden p-1 text-slate-400 hover:text-white transition-colors duration-200"
             aria-label="Toggle menu"
@@ -271,42 +271,42 @@ Please get back to me with a detailed blueprint proposal.`
         {/* Mobile Dropdown Menu */}
         {mobileMenuOpen && (
           <div className="md:hidden border-t border-[#2c7a7b]/10 bg-[#060a12]/95 px-6 py-6 space-y-4 text-sm font-semibold uppercase tracking-widest text-slate-300 animate-float">
-            <a 
-              href="#services" 
+            <a
+              href="#services"
               onClick={() => setMobileMenuOpen(false)}
               className="block py-2 hover:text-[#2c7a7b] transition-colors"
             >
               Services
             </a>
-            <a 
-              href="#why-choose-us" 
+            <a
+              href="#why-choose-us"
               onClick={() => setMobileMenuOpen(false)}
               className="block py-2 hover:text-[#2c7a7b] transition-colors"
             >
               Why AAVA
             </a>
-            <a 
-              href="#portfolio" 
+            <a
+              href="#portfolio"
               onClick={() => setMobileMenuOpen(false)}
               className="block py-2 hover:text-[#2c7a7b] transition-colors"
             >
               Portfolio
             </a>
-            <a 
-              href="#estimator" 
+            <a
+              href="#estimator"
               onClick={() => setMobileMenuOpen(false)}
               className="block py-2 hover:text-[#2c7a7b] transition-colors"
             >
               Quote Builder
             </a>
-            <a 
-              href="#contact" 
+            <a
+              href="#contact"
               onClick={() => setMobileMenuOpen(false)}
               className="block py-2 hover:text-[#2c7a7b] transition-colors"
             >
               Contact
             </a>
-            <a 
+            <a
               href="#estimator"
               onClick={() => setMobileMenuOpen(false)}
               className="block w-full text-center py-3 rounded-xl bg-gradient-to-r from-[#2c7a7b] to-[#1a365d] border border-[#2c7a7b]/30 text-white text-xs font-bold transition-all duration-300"
@@ -355,13 +355,13 @@ Please get back to me with a detailed blueprint proposal.`
 
           {/* CTA Buttons */}
           <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto mt-4">
-            <a 
+            <a
               href="#estimator"
               className="glow-btn px-8 py-4 rounded-xl bg-gradient-to-r from-[#2c7a7b] to-[#1a365d] hover:from-[#369597] hover:to-[#214373] text-white text-xs font-bold tracking-widest uppercase border border-[#2c7a7b]/30 shadow-[0_4px_18px_rgba(44,122,123,0.3)] transition-all duration-300 text-center"
             >
               Build Custom Estimate
             </a>
-            <a 
+            <a
               href="#services"
               className="px-8 py-4 rounded-xl bg-[#0b1424]/60 hover:bg-[#101c33]/80 border border-slate-800 hover:border-[#2c7a7b]/40 text-slate-300 hover:text-white text-xs font-bold tracking-widest uppercase transition-all duration-300 text-center"
             >
@@ -395,7 +395,7 @@ Please get back to me with a detailed blueprint proposal.`
         </div>
 
         <div className="grid md:grid-cols-2 gap-8 lg:gap-12">
-          
+
           {/* Service Card 1: Corporate Gifting */}
           <div className="service-card glass-panel rounded-3xl overflow-hidden border border-[#2c7a7b]/15 bg-[#0a1424]/40 hover:border-[#2c7a7b]/30 shadow-lg flex flex-col justify-between">
             <div className="relative h-64 sm:h-72 w-full overflow-hidden">
@@ -414,11 +414,18 @@ Please get back to me with a detailed blueprint proposal.`
               </div>
             </div>
 
-            <div className="p-8 space-y-6 flex-1 flex flex-col justify-between">
+            <div className="p-8 relative space-y-6 flex-1 flex flex-col justify-between">
               <div className="space-y-3">
-                <h3 className="text-xl sm:text-2xl font-display font-bold text-white tracking-wide">
-                  Corporate Gifting Packages
+                <h3 className="text-xl flex items-center gap-3 sm:text-2xl font-display font-bold text-white tracking-wide">
+                  Corporate Gifting Packages<a
+                    href="/aava.pdf"
+                    download
+                    className="w-max px-4 inline py-3.5 rounded-xl bg-[#0b1424] hover:bg-[#2c7a7b] hover:text-white border border-[#2c7a7b]/30 hover:border-transparent text-slate-300 text-xs font-bold tracking-widest uppercase transition-all duration-300 text-center shadow-inner"
+                  >
+                    Download catalog
+                  </a>
                 </h3>
+
                 <p className="text-slate-400 text-sm font-light leading-relaxed">
                   Avoid generic promotional items. We design, source, and compile bespoke gifting collections matching your exact corporate identity. From luxury executive accessories to premium tech crates, every box is packaged custom-fit and can be fulfilled internationally.
                 </p>
@@ -441,13 +448,14 @@ Please get back to me with a detailed blueprint proposal.`
                 ))}
               </div>
 
-              <a 
-                href="#estimator" 
+              <a
+                href="#estimator"
                 onClick={() => setSelectedService("gifting")}
                 className="w-full py-3.5 rounded-xl bg-[#0b1424] hover:bg-[#2c7a7b] hover:text-white border border-[#2c7a7b]/30 hover:border-transparent text-slate-300 text-xs font-bold tracking-widest uppercase transition-all duration-300 text-center shadow-inner"
               >
                 Configure Gifting Estimate
               </a>
+
             </div>
           </div>
 
@@ -496,8 +504,8 @@ Please get back to me with a detailed blueprint proposal.`
                 ))}
               </div>
 
-              <a 
-                href="#estimator" 
+              <a
+                href="#estimator"
                 onClick={() => setSelectedService("events")}
                 className="w-full py-3.5 rounded-xl bg-[#0b1424] hover:bg-[#2c7a7b] hover:text-white border border-[#2c7a7b]/30 hover:border-transparent text-slate-300 text-xs font-bold tracking-widest uppercase transition-all duration-300 text-center shadow-inner"
               >
@@ -513,7 +521,7 @@ Please get back to me with a detailed blueprint proposal.`
       <section id="why-choose-us" className="relative z-10 w-full bg-[#0a0e17]/60 py-20 border-y border-slate-900/60">
         <div className="max-w-7xl mx-auto px-6">
           <div className="grid lg:grid-cols-12 gap-12 items-center">
-            
+
             {/* Left Col: Headings */}
             <div className="lg:col-span-5 space-y-6">
               <span className="text-[10px] font-bold tracking-[0.3em] text-[#2c7a7b] uppercase block">
@@ -526,7 +534,7 @@ Please get back to me with a detailed blueprint proposal.`
               <p className="text-slate-400 text-sm font-light leading-relaxed">
                 At Aavacustoms, we don&apos;t believe in cut corners. Every client brief undergoes a rigorous styling consultation to build structured blueprints matching your corporate prestige.
               </p>
-              
+
               {/* Highlight cards */}
               <div className="space-y-4 pt-4">
                 {[
@@ -535,7 +543,7 @@ Please get back to me with a detailed blueprint proposal.`
                 ].map((item, idx) => (
                   <div key={idx} className="flex gap-4 p-4 rounded-2xl bg-[#0e1624] border border-[#2c7a7b]/10">
                     <div className="w-10 h-10 rounded-xl bg-[#2c7a7b]/10 border border-[#2c7a7b]/25 flex items-center justify-center text-[#2c7a7b] font-bold shrink-0">
-                      0{idx+1}
+                      0{idx + 1}
                     </div>
                     <div>
                       <h4 className="text-xs font-semibold text-white tracking-wide">{item.title}</h4>
@@ -549,7 +557,7 @@ Please get back to me with a detailed blueprint proposal.`
             {/* Right Col: Timeline Process */}
             <div className="lg:col-span-7 space-y-8 lg:pl-8">
               <div className="border-l-2 border-[#2c7a7b]/20 pl-6 space-y-8">
-                
+
                 {[
                   {
                     step: "Phase 01",
@@ -572,7 +580,7 @@ Please get back to me with a detailed blueprint proposal.`
                     <div className="absolute -left-[31px] top-0 w-4 h-4 rounded-full bg-[#060a12] border-2 border-[#2c7a7b] flex items-center justify-center">
                       <div className="w-1.5 h-1.5 rounded-full bg-[#2c7a7b] animate-pulse" />
                     </div>
-                    
+
                     <div className="space-y-1">
                       <span className="text-[9px] font-bold tracking-widest text-[#2c7a7b] uppercase">
                         {item.step}
@@ -616,11 +624,10 @@ Please get back to me with a detailed blueprint proposal.`
               <button
                 key={f.val}
                 onClick={() => setGalleryFilter(f.val)}
-                className={`px-3 py-1.5 rounded-lg text-[10px] font-bold uppercase tracking-widest transition-all duration-300 ${
-                  galleryFilter === f.val
-                    ? "bg-[#2c7a7b] text-white shadow-sm"
-                    : "text-slate-400 hover:text-white"
-                }`}
+                className={`px-3 py-1.5 rounded-lg text-[10px] font-bold uppercase tracking-widest transition-all duration-300 ${galleryFilter === f.val
+                  ? "bg-[#2c7a7b] text-white shadow-sm"
+                  : "text-slate-400 hover:text-white"
+                  }`}
               >
                 {f.label}
               </button>
@@ -631,7 +638,7 @@ Please get back to me with a detailed blueprint proposal.`
         {/* Gallery Cards Grid */}
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredGallery.map((item, idx) => (
-            <div 
+            <div
               key={idx}
               className="glass-panel rounded-2xl p-6 border border-slate-800/60 bg-[#0a1220]/25 transition-all duration-300 hover:border-[#2c7a7b]/30 hover:shadow-[0_0_15px_rgba(44,122,123,0.1)] flex flex-col justify-between gap-4"
             >
@@ -673,10 +680,10 @@ Please get back to me with a detailed blueprint proposal.`
           </div>
 
           <div className="glass-panel rounded-3xl p-6 sm:p-10 border border-[#2c7a7b]/20 bg-[#090e18]/80 shadow-2xl grid md:grid-cols-12 gap-8 items-center">
-            
+
             {/* Left Box: Controls */}
             <div className="md:col-span-7 space-y-6">
-              
+
               {/* Service Toggle */}
               <div className="space-y-2">
                 <label className="text-[10px] font-bold uppercase tracking-widest text-slate-400">
@@ -685,21 +692,19 @@ Please get back to me with a detailed blueprint proposal.`
                 <div className="grid grid-cols-2 gap-2 bg-[#090f1a] p-1 rounded-xl border border-slate-800">
                   <button
                     onClick={() => setSelectedService("gifting")}
-                    className={`py-2 rounded-lg text-xs font-semibold uppercase tracking-wider transition-all duration-300 ${
-                      selectedService === "gifting"
-                        ? "bg-[#2c7a7b] text-white"
-                        : "text-slate-400 hover:text-white"
-                    }`}
+                    className={`py-2 rounded-lg text-xs font-semibold uppercase tracking-wider transition-all duration-300 ${selectedService === "gifting"
+                      ? "bg-[#2c7a7b] text-white"
+                      : "text-slate-400 hover:text-white"
+                      }`}
                   >
                     Corporate Gifting
                   </button>
                   <button
                     onClick={() => setSelectedService("events")}
-                    className={`py-2 rounded-lg text-xs font-semibold uppercase tracking-wider transition-all duration-300 ${
-                      selectedService === "events"
-                        ? "bg-[#2c7a7b] text-white"
-                        : "text-slate-400 hover:text-white"
-                    }`}
+                    className={`py-2 rounded-lg text-xs font-semibold uppercase tracking-wider transition-all duration-300 ${selectedService === "events"
+                      ? "bg-[#2c7a7b] text-white"
+                      : "text-slate-400 hover:text-white"
+                      }`}
                   >
                     Event Organizing
                   </button>
@@ -756,7 +761,7 @@ Please get back to me with a detailed blueprint proposal.`
                 <label className="text-[10px] font-bold uppercase tracking-widest text-slate-400">
                   Custom Additions
                 </label>
-                
+
                 {selectedService === "gifting" ? (
                   <div className="space-y-2.5">
                     <label className="flex items-center gap-3 p-3 rounded-xl bg-[#090f1a]/80 border border-slate-800 cursor-pointer hover:border-[#2c7a7b]/30 transition-all text-xs">
@@ -912,7 +917,7 @@ Please get back to me with a detailed blueprint proposal.`
           </div>
         ) : (
           <form onSubmit={handleContactSubmit} className="glass-panel rounded-3xl p-8 sm:p-10 border border-slate-800 bg-[#090f1a]/60 space-y-6">
-            
+
             <div className="grid sm:grid-cols-2 gap-6">
               {/* Name input */}
               <div className="space-y-1.5">
@@ -1044,7 +1049,7 @@ Please get back to me with a detailed blueprint proposal.`
 
       {/* Footer */}
       <footer className="relative z-10 w-full max-w-7xl mx-auto px-6 py-12 border-t border-slate-900/60 flex flex-col md:flex-row items-center md:items-start justify-between gap-10">
-        
+
         {/* Brand Col */}
         <div className="space-y-4 text-center md:text-left">
           <div className="flex items-center justify-center md:justify-start gap-2.5">
@@ -1075,7 +1080,7 @@ Please get back to me with a detailed blueprint proposal.`
           </div>
           <div className="space-y-3 text-center md:text-left">
             <span className="text-white text-[11px]">Contact</span>
-            <a href="mailto:info@aavacustoms.com" className="block hover:text-[#2c7a7b] transition-colors">Email Us</a>
+            <a href="mailto:hello@aavacustoms.com" className="block hover:text-[#2c7a7b] transition-colors">Email Us</a>
             <span className="block text-slate-500 font-normal">San Francisco, CA</span>
           </div>
         </div>
@@ -1106,7 +1111,7 @@ Please get back to me with a detailed blueprint proposal.`
               },
               {
                 name: "Email",
-                href: "mailto:info@aavacustoms.com",
+                href: "mailto:hello@aavacustoms.com",
                 icon: (
                   <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
