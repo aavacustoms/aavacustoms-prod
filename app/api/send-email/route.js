@@ -14,22 +14,51 @@ export async function POST(request) {
       );
     }
 
+    // If SMTP credentials are not configured, fallback to Mock Mode
+    if (!process.env.SMTP_USER || !process.env.SMTP_PASS) {
+      console.warn("SMTP credentials not configured. Falling back to Mock Mode.");
+      console.log("=========================================");
+      console.log(`From: ${name} <${email}>`);
+      console.log(`Company: ${company || "N/A"}`);
+      console.log(`Service: ${serviceType || "N/A"}`);
+      console.log(`Volume: ${volume || "N/A"}`);
+      console.log(`Add-ons: ${addOnsSelected || "N/A"}`);
+      console.log(`Estimate: ${estimatedRange || "N/A"}`);
+      console.log(`Message: ${message}`);
+      console.log("=========================================");
+
+      return NextResponse.json({
+        success: true,
+        message: "Email logged (Mock Mode — no SMTP credentials configured)"
+      });
+    }
+
+    const smtpUser = process.env.SMTP_USER;
+    const smtpHost = process.env.SMTP_HOST || "smtp.hostinger.com";
+    const smtpPort = parseInt(process.env.SMTP_PORT || "465");
+    const smtpSecure = process.env.SMTP_SECURE !== "false"; // default true for port 465
+
     // Configure SMTP transporter
     const transporter = nodemailer.createTransport({
-      host: process.env.SMTP_HOST || "smtp.gmail.com",
-      port: parseInt(process.env.SMTP_PORT || "587"),
-      secure: process.env.SMTP_SECURE === "true",
+      host: smtpHost,
+      port: smtpPort,
+      secure: smtpSecure,
       auth: {
-        user: process.env.SMTP_USER,
+        user: smtpUser,
         pass: process.env.SMTP_PASS,
+      },
+      tls: {
+        rejectUnauthorized: false,
       },
     });
 
+    // The "from" MUST be the authenticated SMTP user (Hostinger requirement).
+    // The visitor's email goes in "replyTo" so you can reply directly to them.
     const mailOptions = {
-      from: `"${name}" <${email}>`,
-      to: "hello@aavacustoms.com",
+      from: `"AAVA Customs Website" <${smtpUser}>`,
+      to: smtpUser,
       replyTo: email,
-      subject: `New Project Inquiry: ${company || name}`,
+      subject: `New Project Inquiry from ${name}${company ? ` — ${company}` : ""}`,
       text: `
 New Inquiry Received from AAVA Customs Website
 
@@ -45,60 +74,50 @@ Message:
 ${message}
       `,
       html: `
-        <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; border: 1px solid #f0f0f0; padding: 20px; border-radius: 8px;">
-          <h2 style="color: #2c7a7b; border-bottom: 2px solid #2c7a7b; padding-bottom: 10px;">New Website Inquiry</h2>
-          <table style="width: 100%; border-collapse: collapse; margin-top: 15px;">
-            <tr>
-              <td style="padding: 6px 0; font-weight: bold; width: 160px;">Name:</td>
-              <td style="padding: 6px 0;">${name}</td>
-            </tr>
-            <tr>
-              <td style="padding: 6px 0; font-weight: bold;">Email:</td>
-              <td style="padding: 6px 0;"><a href="mailto:${email}" style="color: #2c7a7b;">${email}</a></td>
-            </tr>
-            <tr>
-              <td style="padding: 6px 0; font-weight: bold;">Company:</td>
-              <td style="padding: 6px 0;">${company || "N/A"}</td>
-            </tr>
-            <tr>
-              <td style="padding: 6px 0; font-weight: bold;">Service Type:</td>
-              <td style="padding: 6px 0; text-transform: uppercase;">${serviceType || "N/A"}</td>
-            </tr>
-            <tr>
-              <td style="padding: 6px 0; font-weight: bold;">Volume / Guests:</td>
-              <td style="padding: 6px 0;">${volume || "N/A"}</td>
-            </tr>
-            <tr>
-              <td style="padding: 6px 0; font-weight: bold;">Add-ons:</td>
-              <td style="padding: 6px 0;">${addOnsSelected || "N/A"}</td>
-            </tr>
-            <tr>
-              <td style="padding: 6px 0; font-weight: bold;">Ballpark Estimate:</td>
-              <td style="padding: 6px 0; font-weight: bold; color: #2c7a7b;">${estimatedRange || "N/A"}</td>
-            </tr>
-          </table>
-          <div style="margin-top: 20px; border-top: 1px solid #eee; padding-top: 15px;">
-            <p style="font-weight: bold; margin-bottom: 8px;">Message:</p>
-            <p style="background-color: #f9f9f9; padding: 12px; border-radius: 6px; white-space: pre-wrap; font-style: italic;">${message}</p>
+        <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; border: 1px solid #e0e0e0; border-radius: 8px; overflow: hidden;">
+          <div style="background: linear-gradient(135deg, #1a365d, #2c7a7b); padding: 20px 24px;">
+            <h2 style="color: #ffffff; margin: 0; font-size: 18px;">New Website Inquiry</h2>
+          </div>
+          <div style="padding: 24px;">
+            <table style="width: 100%; border-collapse: collapse;">
+              <tr>
+                <td style="padding: 8px 0; font-weight: bold; width: 150px; color: #555; border-bottom: 1px solid #f0f0f0;">Name</td>
+                <td style="padding: 8px 0; border-bottom: 1px solid #f0f0f0;">${name}</td>
+              </tr>
+              <tr>
+                <td style="padding: 8px 0; font-weight: bold; color: #555; border-bottom: 1px solid #f0f0f0;">Email</td>
+                <td style="padding: 8px 0; border-bottom: 1px solid #f0f0f0;"><a href="mailto:${email}" style="color: #2c7a7b;">${email}</a></td>
+              </tr>
+              <tr>
+                <td style="padding: 8px 0; font-weight: bold; color: #555; border-bottom: 1px solid #f0f0f0;">Company</td>
+                <td style="padding: 8px 0; border-bottom: 1px solid #f0f0f0;">${company || "N/A"}</td>
+              </tr>
+              <tr>
+                <td style="padding: 8px 0; font-weight: bold; color: #555; border-bottom: 1px solid #f0f0f0;">Service Type</td>
+                <td style="padding: 8px 0; border-bottom: 1px solid #f0f0f0; text-transform: capitalize;">${serviceType || "N/A"}</td>
+              </tr>
+              <tr>
+                <td style="padding: 8px 0; font-weight: bold; width: 150px; color: #555; border-bottom: 1px solid #f0f0f0;">Volume / Guests</td>
+                <td style="padding: 8px 0; border-bottom: 1px solid #f0f0f0;">${volume || "N/A"}</td>
+              </tr>
+              <tr>
+                <td style="padding: 8px 0; font-weight: bold; color: #555; border-bottom: 1px solid #f0f0f0;">Add-ons</td>
+                <td style="padding: 8px 0; border-bottom: 1px solid #f0f0f0;">${addOnsSelected || "N/A"}</td>
+              </tr>
+              <tr>
+                <td style="padding: 8px 0; font-weight: bold; color: #555;">Budget Estimate</td>
+                <td style="padding: 8px 0; font-weight: bold; color: #2c7a7b; font-size: 15px;">${estimatedRange || "N/A"}</td>
+              </tr>
+            </table>
+            <div style="margin-top: 20px; border-top: 1px solid #eee; padding-top: 16px;">
+              <p style="font-weight: bold; color: #555; margin-bottom: 8px;">Message:</p>
+              <p style="background-color: #f8f9fa; padding: 14px; border-radius: 6px; white-space: pre-wrap; color: #333; border-left: 3px solid #2c7a7b;">${message}</p>
+            </div>
+            <p style="margin-top: 20px; font-size: 11px; color: #999;">This inquiry was submitted via the AAVA Customs website contact form. Hit reply to respond directly to the sender.</p>
           </div>
         </div>
       `,
     };
-
-    // If SMTP credentials are not configured, fallback to Mock Mode
-    if (!process.env.SMTP_USER || !process.env.SMTP_PASS) {
-      console.warn("SMTP credentials not configured. Falling back to Mock Mode (logging details below):");
-      console.log("=========================================");
-      console.log(`To: ${mailOptions.to}`);
-      console.log(`Subject: ${mailOptions.subject}`);
-      console.log(`Text Body:\n${mailOptions.text}`);
-      console.log("=========================================");
-      
-      return NextResponse.json({ 
-        success: true, 
-        message: "Email received (Mock Mode: Logged to server console due to missing SMTP credentials)" 
-      });
-    }
 
     await transporter.sendMail(mailOptions);
     return NextResponse.json({ success: true, message: "Email sent successfully" });
