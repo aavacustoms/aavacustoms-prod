@@ -2,6 +2,8 @@
 
 import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
+import Footer from "@/app/components/Footer";
+
 
 export default function Home() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -1047,94 +1049,7 @@ Please get back to me with a detailed blueprint proposal.`
         )}
       </section>
 
-      {/* Footer */}
-      <footer className="relative z-10 w-full max-w-7xl mx-auto px-6 py-12 border-t border-slate-900/60 flex flex-col md:flex-row items-center md:items-start justify-between gap-10">
-
-        {/* Brand Col */}
-        <div className="space-y-4 text-center md:text-left">
-          <div className="flex items-center justify-center md:justify-start gap-2.5">
-            <div className="relative w-7 h-7">
-              <Image
-                src="/logo-white.svg"
-                alt="AAVA Customs Logo"
-                fill
-                className="object-contain drop-shadow-[0_0_8px_rgba(44,122,123,0.3)]"
-              />
-            </div>
-            <span className="font-display font-bold text-base tracking-[0.2em] text-white">
-              AAVA CUSTOMS
-            </span>
-          </div>
-          <p className="text-[10px] text-slate-500 max-w-xs leading-relaxed uppercase tracking-wider">
-            Bespoke Gifting & Event Production. Designed and managed with uncompromised focus.
-          </p>
-        </div>
-
-        {/* Links Col */}
-        <div className="flex flex-wrap justify-center gap-x-12 gap-y-6 text-[10px] font-bold uppercase tracking-widest text-slate-400">
-          <div className="space-y-3 text-center md:text-left">
-            <span className="text-white text-[11px]">Navigate</span>
-            <a href="#home" className="block hover:text-[#2c7a7b] transition-colors">Top</a>
-            <a href="#services" className="block hover:text-[#2c7a7b] transition-colors">Services</a>
-            <a href="#estimator" className="block hover:text-[#2c7a7b] transition-colors">Quote Builder</a>
-          </div>
-          <div className="space-y-3 text-center md:text-left">
-            <span className="text-white text-[11px]">Contact</span>
-            <a href="mailto:hello@aavacustoms.com" className="block hover:text-[#2c7a7b] transition-colors">Email Us</a>
-            <span className="block text-slate-500 font-normal">San Francisco, CA</span>
-          </div>
-        </div>
-
-        {/* Social and Copyright */}
-        <div className="flex flex-col items-center md:items-end gap-4">
-          <div className="flex gap-3.5">
-            {[
-              {
-                name: "Instagram",
-                href: "#",
-                icon: (
-                  <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-                    <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
-                    <path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z" />
-                    <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
-                  </svg>
-                ),
-              },
-              {
-                name: "Twitter",
-                href: "#",
-                icon: (
-                  <svg className="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
-                  </svg>
-                ),
-              },
-              {
-                name: "Email",
-                href: "mailto:hello@aavacustoms.com",
-                icon: (
-                  <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                  </svg>
-                ),
-              },
-            ].map((social, idx) => (
-              <a
-                key={idx}
-                href={social.href}
-                className="w-8 h-8 rounded-full border border-slate-900 flex items-center justify-center text-slate-500 hover:text-white hover:border-[#2c7a7b] hover:shadow-[0_0_8px_rgba(44,122,123,0.3)] transition-all duration-300"
-                aria-label={social.name}
-              >
-                {social.icon}
-              </a>
-            ))}
-          </div>
-          <p className="text-[10px] text-slate-500 uppercase tracking-widest text-center md:text-right">
-            &copy; {new Date().getFullYear()} AAVA Customs. All rights reserved.
-          </p>
-        </div>
-
-      </footer>
+      <Footer />
     </div>
   );
 }
