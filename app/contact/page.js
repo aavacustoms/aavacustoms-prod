@@ -83,13 +83,49 @@ export default function ContactPage() {
     cateringCoordination,
   ]);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setFormStatus("loading");
-    setTimeout(() => {
-      setFormStatus("success");
-      setFormData({ name: "", email: "", company: "", message: "" });
-    }, 1500);
+
+    let addOns = [];
+    if (selectedService === "gifting") {
+      if (customPackaging) addOns.push("Custom Wooden/Foil Boxes");
+      if (premiumSourcing) addOns.push("Bespoke Artisan Sourcing");
+      if (internationalDelivery) addOns.push("International Fulfillment");
+    } else {
+      if (stageProduction) addOns.push("Custom Stage/Decor");
+      if (avSourcing) addOns.push("Professional Sound & Video");
+      if (cateringCoordination) addOns.push("Catering/Beverage Sourcing");
+    }
+
+    try {
+      const response = await fetch("/api/send-email", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          company: formData.company,
+          message: formData.message,
+          serviceType: selectedService,
+          volume: selectedService === "gifting" ? `${giftQuantity} Boxes` : `${eventGuests} Guests`,
+          addOnsSelected: addOns.join(", ") || "None",
+          estimatedRange: `$${estimatedCost.min.toLocaleString()} - $${estimatedCost.max.toLocaleString()}`
+        }),
+      });
+
+      const data = await response.json();
+      if (data.success) {
+        setFormStatus("success");
+        setFormData({ name: "", email: "", company: "", message: "" });
+      } else {
+        throw new Error(data.error || "Failed to send email");
+      }
+    } catch (error) {
+      console.error("Email submission error:", error);
+      alert(`Submission failed: ${error.message}`);
+      setFormStatus("idle");
+    }
   };
 
   return (

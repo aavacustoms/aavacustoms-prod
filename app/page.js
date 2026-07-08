@@ -139,23 +139,46 @@ Please get back to me with a detailed blueprint proposal.`
     }
   };
 
-  const handleContactSubmit = (e) => {
+  const handleContactSubmit = async (e) => {
     e.preventDefault();
     setFormStatus("loading");
 
-    // Simulate API write
-    setTimeout(() => {
-      setFormStatus("success");
-      setFormData({
-        name: "",
-        email: "",
-        company: "",
-        serviceType: "gifting",
-        volume: "50",
-        addOnsSelected: "Custom Packaging",
-        message: "",
+    try {
+      const response = await fetch("/api/send-email", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          company: formData.company,
+          message: formData.message,
+          serviceType: formData.serviceType,
+          volume: formData.volume,
+          addOnsSelected: formData.addOnsSelected,
+          estimatedRange: `$${estimatedCost.min.toLocaleString()} - $${estimatedCost.max.toLocaleString()}`
+        }),
       });
-    }, 1500);
+
+      const data = await response.json();
+      if (data.success) {
+        setFormStatus("success");
+        setFormData({
+          name: "",
+          email: "",
+          company: "",
+          serviceType: "gifting",
+          volume: "50",
+          addOnsSelected: "Custom Packaging",
+          message: "",
+        });
+      } else {
+        throw new Error(data.error || "Failed to send email");
+      }
+    } catch (error) {
+      console.error("Email submission error:", error);
+      alert(`Submission failed: ${error.message}`);
+      setFormStatus("idle");
+    }
   };
 
   const galleryItems = [
