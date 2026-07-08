@@ -85,6 +85,21 @@ ${message}
       `,
     };
 
+    // If SMTP credentials are not configured, fallback to Mock Mode
+    if (!process.env.SMTP_USER || !process.env.SMTP_PASS) {
+      console.warn("SMTP credentials not configured. Falling back to Mock Mode (logging details below):");
+      console.log("=========================================");
+      console.log(`To: ${mailOptions.to}`);
+      console.log(`Subject: ${mailOptions.subject}`);
+      console.log(`Text Body:\n${mailOptions.text}`);
+      console.log("=========================================");
+      
+      return NextResponse.json({ 
+        success: true, 
+        message: "Email received (Mock Mode: Logged to server console due to missing SMTP credentials)" 
+      });
+    }
+
     await transporter.sendMail(mailOptions);
     return NextResponse.json({ success: true, message: "Email sent successfully" });
   } catch (error) {
