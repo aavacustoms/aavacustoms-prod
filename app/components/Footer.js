@@ -80,7 +80,7 @@ export default function Footer() {
 
       <div className="relative z-10 max-w-7xl mx-auto px-6">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-10 pb-12 border-b border-slate-900/60">
-          
+
           {/* Brand Column */}
           <div className="md:col-span-4 space-y-6">
             <Link href="/" className="flex items-center gap-3 group w-fit">
@@ -137,29 +137,27 @@ export default function Footer() {
             ))}
           </div>
 
-          {/* Contact Details & Newsletter Sign-up */}
-          <div className="md:col-span-4 space-y-6">
-            <div className="space-y-4">
-              <span className="text-[10px] font-bold uppercase tracking-[0.25em] text-slate-200 block">
-                Connect
-              </span>
-              <div className="space-y-2.5">
-                <a
-                  href="mailto:hello@aavacustoms.com"
-                  className="flex items-center gap-2.5 text-[11px] text-slate-400 hover:text-[#4fd1c5] transition-colors group w-fit"
-                >
-                  <svg className="w-4 h-4 text-[#2c7a7b]/75 group-hover:text-[#4fd1c5] transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                  </svg>
-                  hello@aavacustoms.com
-                </a>
-                <div className="flex items-center gap-2.5 text-[11px] text-slate-400">
-                  <svg className="w-4 h-4 text-[#2c7a7b]/75" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                  </svg>
-                  Noida · India
-                </div>
+          {/* Contact Quick */}
+          <div className="md:col-span-3 space-y-4">
+            <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-white block">
+              Get in Touch
+            </span>
+            <div className="space-y-3">
+              <a
+                href="mailto:hello@aavacustoms.com"
+                className="flex items-center gap-2 text-[11px] text-slate-500 hover:text-[#2c7a7b] transition-colors group"
+              >
+                <svg className="w-3.5 h-3.5 shrink-0 text-[#2c7a7b]/60 group-hover:text-[#2c7a7b]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                </svg>
+                hello@aavacustoms.com
+              </a>
+              <div className="flex items-center gap-2 text-[11px] text-slate-500">
+                <svg className="w-3.5 h-3.5 shrink-0 text-[#2c7a7b]/60" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                </svg>
+                Noida · India
               </div>
             </div>
 

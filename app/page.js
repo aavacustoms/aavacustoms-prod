@@ -141,23 +141,46 @@ Please get back to me with a detailed blueprint proposal.`
     }
   };
 
-  const handleContactSubmit = (e) => {
+  const handleContactSubmit = async (e) => {
     e.preventDefault();
     setFormStatus("loading");
 
-    // Simulate API write
-    setTimeout(() => {
-      setFormStatus("success");
-      setFormData({
-        name: "",
-        email: "",
-        company: "",
-        serviceType: "gifting",
-        volume: "50",
-        addOnsSelected: "Custom Packaging",
-        message: "",
+    try {
+      const response = await fetch("/api/send-email", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          company: formData.company,
+          message: formData.message,
+          serviceType: formData.serviceType,
+          volume: formData.volume,
+          addOnsSelected: formData.addOnsSelected,
+          estimatedRange: `$${estimatedCost.min.toLocaleString()} - $${estimatedCost.max.toLocaleString()}`
+        }),
       });
-    }, 1500);
+
+      const data = await response.json();
+      if (data.success) {
+        setFormStatus("success");
+        setFormData({
+          name: "",
+          email: "",
+          company: "",
+          serviceType: "gifting",
+          volume: "50",
+          addOnsSelected: "Custom Packaging",
+          message: "",
+        });
+      } else {
+        throw new Error(data.error || "Failed to send email");
+      }
+    } catch (error) {
+      console.error("Email submission error:", error);
+      alert(`Submission failed: ${error.message}`);
+      setFormStatus("idle");
+    }
   };
 
   const galleryItems = [
@@ -215,109 +238,6 @@ Please get back to me with a detailed blueprint proposal.`
 
       {/* Cyber Grid Background */}
       <div className="absolute inset-0 cyber-grid opacity-40 z-0 pointer-events-none" />
-
-      {/* Sticky frosted glass navbar */}
-      <header className="sticky top-0 z-50 w-full backdrop-blur-md bg-[#060a12]/75 border-b border-[#2c7a7b]/10 transition-all duration-300">
-        <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-
-          {/* Logo Frame */}
-          <a href="#home" className="flex items-center gap-2.5 group">
-            <div className="relative w-8 h-8 sm:w-9 sm:h-9">
-              <Image
-                src="/logo-white.svg"
-                alt="AAVA Customs Logo"
-                fill
-                className="object-contain drop-shadow-[0_0_12px_rgba(44,122,123,0.3)] transition-transform duration-300 group-hover:scale-105"
-              />
-            </div>
-            <span className="font-display font-bold text-base sm:text-lg tracking-[0.22em] text-white">
-              AAVA CUSTOMS
-            </span>
-          </a>
-
-          {/* Desktop Navigation Link Anchors */}
-          <nav className="hidden md:flex items-center gap-8 text-xs font-semibold uppercase tracking-widest text-slate-300">
-            <a href="#services" className="hover:text-[#2c7a7b] transition-colors duration-200">Services</a>
-            <a href="#why-choose-us" className="hover:text-[#2c7a7b] transition-colors duration-200">Why AAVA</a>
-            <a href="#portfolio" className="hover:text-[#2c7a7b] transition-colors duration-200">Portfolio</a>
-            <a href="#estimator" className="hover:text-[#2c7a7b] transition-colors duration-200">Quote Builder</a>
-            <a href="#contact" className="hover:text-[#2c7a7b] transition-colors duration-200">Contact</a>
-          </nav>
-
-          {/* Header Action Button */}
-          <a
-            href="#estimator"
-            className="hidden md:inline-flex px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#1a365d]/40 to-[#2c7a7b]/50 hover:to-[#2c7a7b]/80 border border-[#2c7a7b]/30 hover:border-[#2c7a7b]/60 text-xs font-bold tracking-wider uppercase text-white shadow-sm transition-all duration-300 hover:shadow-[0_0_12px_rgba(44,122,123,0.25)]"
-          >
-            Get Estimate
-          </a>
-
-          {/* Hamburger Mobile Menu Toggle */}
-          <button
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="md:hidden p-1 text-slate-400 hover:text-white transition-colors duration-200"
-            aria-label="Toggle menu"
-          >
-            {mobileMenuOpen ? (
-              <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-              </svg>
-            ) : (
-              <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
-              </svg>
-            )}
-          </button>
-        </div>
-
-        {/* Mobile Dropdown Menu */}
-        {mobileMenuOpen && (
-          <div className="md:hidden border-t border-[#2c7a7b]/10 bg-[#060a12]/95 px-6 py-6 space-y-4 text-sm font-semibold uppercase tracking-widest text-slate-300 animate-float">
-            <a
-              href="#services"
-              onClick={() => setMobileMenuOpen(false)}
-              className="block py-2 hover:text-[#2c7a7b] transition-colors"
-            >
-              Services
-            </a>
-            <a
-              href="#why-choose-us"
-              onClick={() => setMobileMenuOpen(false)}
-              className="block py-2 hover:text-[#2c7a7b] transition-colors"
-            >
-              Why AAVA
-            </a>
-            <a
-              href="#portfolio"
-              onClick={() => setMobileMenuOpen(false)}
-              className="block py-2 hover:text-[#2c7a7b] transition-colors"
-            >
-              Portfolio
-            </a>
-            <a
-              href="#estimator"
-              onClick={() => setMobileMenuOpen(false)}
-              className="block py-2 hover:text-[#2c7a7b] transition-colors"
-            >
-              Quote Builder
-            </a>
-            <a
-              href="#contact"
-              onClick={() => setMobileMenuOpen(false)}
-              className="block py-2 hover:text-[#2c7a7b] transition-colors"
-            >
-              Contact
-            </a>
-            <a
-              href="#estimator"
-              onClick={() => setMobileMenuOpen(false)}
-              className="block w-full text-center py-3 rounded-xl bg-gradient-to-r from-[#2c7a7b] to-[#1a365d] border border-[#2c7a7b]/30 text-white text-xs font-bold transition-all duration-300"
-            >
-              Get Custom Estimate
-            </a>
-          </div>
-        )}
-      </header>
 
       {/* Hero Section */}
       <section id="home" className="relative z-10 w-full min-h-[90vh] flex items-center justify-center overflow-hidden py-16 sm:py-24">
@@ -1048,8 +968,6 @@ Please get back to me with a detailed blueprint proposal.`
           </form>
         )}
       </section>
-
-      <Footer />
     </div>
   );
 }
