@@ -784,7 +784,7 @@ Please get back to me with a detailed blueprint proposal.`
               {/* Huge Price Numbers */}
               <div className="space-y-1.5 py-4 border-y border-slate-800/60">
                 <div className="text-3xl sm:text-4xl font-display font-extrabold text-white tracking-tight">
-                  ${estimatedCost.min.toLocaleString()} - ${estimatedCost.max.toLocaleString()}
+                  {estimatedCost.min.toLocaleString()} - {estimatedCost.max.toLocaleString()}
                 </div>
                 <p className="text-[10px] text-slate-400 leading-normal font-light">
                   * ballpark figures based on standard procurement rates. Actual contract price calculated post-blueprint mapping.
